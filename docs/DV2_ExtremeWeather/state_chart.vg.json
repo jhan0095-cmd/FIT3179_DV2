@@ -1,0 +1,35 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Recorded Extreme Weather Events by State",
+  "data": {
+    "url": "data/ExtremeWeather_2.csv"
+  },
+  "mark": "bar",
+  "encoding": {
+    "x": {
+      "field": "State",
+      "type": "nominal",
+      "title": "Australian State or Territory",
+      "sort": "-y"
+    },
+    "y": {
+      "aggregate": "count",
+      "field": "Event ID",
+      "type": "quantitative",
+      "title": "Number of Recorded Events"
+    },
+    "tooltip": [
+      {
+        "field": "State",
+        "type": "nominal",
+        "title": "State"
+      },
+      {
+        "aggregate": "count",
+        "field": "Event ID",
+        "type": "quantitative",
+        "title": "Number of Events"
+      }
+    ]
+  }
+}
