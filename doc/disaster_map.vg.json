@@ -1,0 +1,80 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 850,
+  "height": 550,
+  "title": "Recorded Disaster Locations in Australia",
+  "projection": {
+    "type": "mercator"
+  },
+  "layer": [
+    {
+      "data": {
+        "url": "https://raw.githubusercontent.com/rowanhogan/australian-states/master/states.geojson",
+        "format": {
+          "type": "json",
+          "property": "features"
+        }
+      },
+      "mark": {
+        "type": "geoshape",
+        "fill": "#e8edf0",
+        "stroke": "#9aabb5",
+        "strokeWidth": 0.8
+      }
+    },
+    {
+      "data": {
+        "url": "data/ExtremeWeather_2.csv"
+      },
+      "transform": [
+        {
+          "calculate": "toNumber(datum.Latitude)",
+          "as": "lat"
+        },
+        {
+          "calculate": "toNumber(datum.Longitude)",
+          "as": "lon"
+        },
+        {
+          "filter": "isValid(datum.lat) && isValid(datum.lon)"
+        }
+      ],
+      "mark": {
+        "type": "circle",
+        "color": "#d65f45",
+        "opacity": 0.65,
+        "stroke": "white",
+        "strokeWidth": 0.5
+      },
+      "encoding": {
+        "longitude": {
+          "field": "lon",
+          "type": "quantitative"
+        },
+        "latitude": {
+          "field": "lat",
+          "type": "quantitative"
+        },
+        "size": {
+          "value": 55
+        },
+        "tooltip": [
+          {
+            "field": "Nearest town",
+            "type": "nominal",
+            "title": "Nearest town"
+          },
+          {
+            "field": "State",
+            "type": "nominal"
+          },
+          {
+            "field": "Date/Time",
+            "type": "nominal",
+            "title": "Date"
+          }
+        ]
+      }
+    }
+  ]
+}

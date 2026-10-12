@@ -1,0 +1,76 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 750,
+  "height": 380,
+  "title": {
+    "text": "Recorded Disaster Events Over Time",
+    "subtitle": "Annual number of events in the dataset"
+  },
+  "data": {
+    "url": "data/ExtremeWeather_2.csv"
+  },
+  "transform": [
+    {
+      "calculate": "toDate(datum['Date/Time'])",
+      "as": "eventDate"
+    },
+    {
+      "filter": "isValid(datum.eventDate)"
+    },
+    {
+      "timeUnit": "year",
+      "field": "eventDate",
+      "as": "year"
+    },
+    {
+      "aggregate": [
+        {
+          "op": "count",
+          "as": "eventCount"
+        }
+      ],
+      "groupby": ["year"]
+    }
+  ],
+  "mark": {
+    "type": "line",
+    "point": {
+      "filled": true,
+      "size": 65
+    },
+    "strokeWidth": 3,
+    "color": "#d65f45"
+  },
+  "encoding": {
+    "x": {
+      "field": "year",
+      "type": "temporal",
+      "title": "Year",
+      "axis": {
+        "format": "%Y",
+        "labelAngle": -45
+      }
+    },
+    "y": {
+      "field": "eventCount",
+      "type": "quantitative",
+      "title": "Number of recorded events",
+      "axis": {
+        "tickMinStep": 1
+      }
+    },
+    "tooltip": [
+      {
+        "field": "year",
+        "type": "temporal",
+        "title": "Year",
+        "format": "%Y"
+      },
+      {
+        "field": "eventCount",
+        "type": "quantitative",
+        "title": "Recorded events"
+      }
+    ]
+  }
+}
